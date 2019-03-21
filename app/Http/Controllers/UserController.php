@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AdminController as Admin;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserController extends Controller
 {
@@ -153,7 +154,12 @@ class UserController extends Controller
 
     public function lessonView($categoryId)
     {
-        $category = app(Category::class)::find($categoryId);
+        try {
+            $category = app(Category::class)::findOrFail($categoryId);
+        } catch (ModelNotFoundException $e) {
+            return abort(404);
+        }
+
         !$category ? abort(404) : '';
         $learnedWords = $this->learnedWordGetByCategoryid($categoryId);
         $words = $category->word;
@@ -191,7 +197,11 @@ class UserController extends Controller
 
     public function lessonResult($categoryId)
     {
-        $category = app(Category::class)::find($categoryId);
+        try {
+            $category = app(Category::class)::findOrFail($categoryId);
+        } catch (ModelNotFoundException $e) {
+            return abort(404);
+        }
         $words = $this->learnedWordGetByCategoryid($categoryId);
         $count = 0;
         foreach ($words as $word) {
