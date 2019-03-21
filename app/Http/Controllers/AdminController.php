@@ -7,13 +7,14 @@ use App\Word;
 use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\AccountController as Account;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AdminController extends Controller
 {
     public function categoriesView($pageNumber)
     {
-        $pageNumber < 0 ? $pageNumber = 1 : '';
+        $pageNumber < 1 ? $pageNumber = 1 : '';
         $categories = app(Category::class)->orderBy('updated_at', 'desc')->skip(10 * ($pageNumber - 1))->take(10)->get();
         return view('/admin/categories', compact('categories', 'pageNumber'));
     }
@@ -118,7 +119,7 @@ class AdminController extends Controller
 
     public function usersView($pageNumber)
     {
-        $pageNumber < 0 ? $pageNumber = 1 : '';
+        $pageNumber < 1 ? $pageNumber = 1 : '';
         $users = User::where('admin', false)->orderBy('updated_at', 'desc')->skip(10 * ($pageNumber - 1))->take(10)->get();
         return view('/admin/users', compact('users', 'pageNumber'));
     }
@@ -130,82 +131,31 @@ class AdminController extends Controller
 
     public function userStore(Request $request)
     {
-        $request->validate([
-            'name' => 'required | min:3 | max:20',
-            'email' => 'required | email | unique:users',
-            'password' => 'required | min:6 | confirmed'
-        ]);
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        (new Account)->store($request);
         return redirect('/admin/users/1');
-    }
-
-    public function userExists($userId)
-    {
-        if (User::find($userId) == null) {
-            return abort(404);
-        }
     }
 
     public function userEdit($userId)
     {
-        $this->userExists($userId);
-        $user = User::select('id', 'name', 'email')->find($userId);
+        $user = (new Account)->accountIdNameEmail($userId);
         return view('/admin/userEdit', compact('user'));
-    }
-
-    public function accountRestore($userId, $request)
-    {
-        $this->userExists($userId);
-        if ($request->name !== User::find($userId)->name) {
-            $request->validate([
-                'name' => 'required | min:3 | max:20',
-            ]);
-        }
-        if ($request->email !== User::find($userId)->email) {
-            $request->validate([
-                'email' => 'required | email | unique:users',
-            ]);
-        }
-        return User::find($userId)->fill([
-            'name' => $request->name,
-            'email' => $request->email
-        ])->save();
     }
 
     public function userRestore($userId, Request $request)
     {
-        try {
-            $this->accountRestore($userId, $request);
-        } catch (Exeption $e) {
-            return back();
-        }
+        (new Account)->restore($userId, $request);
         return redirect('/admin/users/1');
     }
 
     public function userDestroy($userId)
     {
-        $this->userExists($userId);
-        $user = User::select('id', 'name', 'email')->find($userId);
+        $user = (new Account)->accountIdNameEmail($userId);
         return view('/admin/userDelete', compact('user'));
-    }
-
-    public function accountDelete($accountId)
-    {
-        $this->userExists($accountId);
-        User::find($accountId)->delete();
     }
 
     public function userDelete($userId)
     {
-        try {
-            $this->accountDelete($userId);
-        } catch (Exception $e) {
-            return back();
-        }
+        (new Account)->delete($userId);
         return redirect('/admin/users/1');
     }
 
@@ -230,35 +180,25 @@ class AdminController extends Controller
 
     public function adminEdit($adminId)
     {
-        $this->userExists($adminId);
-        $admin = User::select('id', 'name', 'email')->find($adminId);
+        (new Account)->accountIdNameEmail($adminId);
         return view('/admin/adminEdit', compact('admin'));
     }
 
     public function adminRestore($adminId, Request $request)
     {
-        try {
-            $this->accountRestore($adminId, $request);
-        } catch (Exeption $e) {
-            return back();
-        }
+        (new Account)->restore($adminId, $request);
         return redirect('/admin/admins/1');
     }
 
     public function adminDestroy($adminId)
     {
-        $this->userExists($adminId);
-        $admin = User::select('id', 'name', 'email')->find($adminId);
+        (new Account)->accountIdNameEmail($adminId);
         return view('/admin/adminDelete', compact('admin'));
     }
 
     public function adminDelete($adminId)
     {
-        try {
-            $this->accountDelete($adminId);
-        } catch (Exception $e) {
-            return back();
-        }
+        (new Account)->delete($adminId);
         return redirect('/admin/admins/1');
     }
 }
