@@ -201,4 +201,9 @@ class AdminController extends Controller
         (new Account)->delete($adminId);
         return redirect('/admin/admins/1');
     }
+
+    public function dashboardView()
+    {
+        return view('/admin/dashboard');
+    }
 }
