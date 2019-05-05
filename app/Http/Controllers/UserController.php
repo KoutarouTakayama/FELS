@@ -10,7 +10,8 @@ use App\LearnedWord;
 use App\LearnedLesson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\AccountController as Account;
+use App\Http\Controllers\AccountController as AccountController;
+use App\Http\Controllers\CategoryController as CategoryController;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserController extends Controller
@@ -50,8 +51,8 @@ class UserController extends Controller
             $learnedCategory = Category::find($learnedLesson->category_id);
             $activities->push([
                 'message' => '<a href="/Category/' . $user->id . '">' . $user->userName . '</a> learned ' .
-                    $this->learnedWordGetByCategoryid($learnedCategory->id)->where('correct', true)->count() . ' of ' .
-                    $this->learnedWordGetByCategoryid($learnedCategory->id)->count() . ' words in <a href="/category/' .
+                    (new CategoryController)->learnedWordGetByCategoryid($learnedCategory->id)->where('correct', true)->count() . ' of ' .
+                    (new CategoryController)->learnedWordGetByCategoryid($learnedCategory->id)->count() . ' words in <a href="/category/' .
                     $learnedCategory->id . '">' . $learnedCategory->title . '</a>.',
                 'avatar_url' => $user->avatar_url,
                 'updated_at' => $learnedLesson->updated_at
@@ -133,87 +134,6 @@ class UserController extends Controller
         return back();
     }
 
-    public function categoriesView($pageNumber)
-    {
-        $categories = (new Category)->getTenCategories($pageNumber);
-        return view('/user/categoryList', compact('categories', 'pageNumber'));
-    }
-
-    public function learnedWordGetByCategoryid($categoryId)
-    {
-        $userWords = Auth::user()->learnedWord;
-        $learnedWords = collect();
-        foreach ($userWords as $userWord) {
-            $categoryId == $userWord->word->category_id ? $learnedWords->push($userWord) : '';
-        }
-        return $learnedWords;
-    }
-
-    public function lessonView($categoryId)
-    {
-        try {
-            $category = Category::findOrFail($categoryId);
-        } catch (ModelNotFoundException $e) {
-            return abort(404);
-        }
-
-        !$category ? abort(404) : '';
-        $learnedWords = $this->learnedWordGetByCategoryid($categoryId);
-        $words = $category->word;
-        foreach ($words as $word) {
-            $token = true;
-            foreach ($learnedWords as $learnedWord) {
-                $word->id == $learnedWord->word->id ? $token = false : '';
-            }
-            if ($token) {
-                $choices = [
-                    $word->answer, $word->wrong_answer_1,
-                    $word->wrong_answer_2, $word->wrong_answer_3
-                ];
-                shuffle($choices);
-                return view('/user/lesson', compact('word', 'category', 'learnedWords', 'choices'));
-            }
-        }
-
-        return $this->lessonResult($categoryId);
-    }
-
-    public function answerCheck($wordId, Request $request)
-    {
-        $word = Word::find($wordId);
-        $newWord = new LearnedWord;
-        $newWord->word_id = $word->id;
-        $newWord->user_id = auth()->user()->id;
-        $word->answer === $request->choice ? $newWord->correct = true : $newWord->correct = false;
-        if (!LearnedWord::where('user_id', Auth::id())->where('word_id', $wordId)->exists()) {
-            $newWord->save();
-        }
-
-        return back();
-    }
-
-    public function lessonResult($categoryId)
-    {
-        try {
-            $category = Category::findOrFail($categoryId);
-        } catch (ModelNotFoundException $e) {
-            return abort(404);
-        }
-        $words = $this->learnedWordGetByCategoryid($categoryId);
-        $count = 0;
-        foreach ($words as $word) {
-            $word->correct ? $count++ : '';
-        }
-        if (!auth()->user()->learnedLesson()->where('category_id', $categoryId)->exists()) {
-            LearnedLesson::create([
-                'user_id' => auth()->user()->id,
-                'category_id' => $categoryId,
-            ]);
-        }
-
-        return view('/user/result', compact('words', 'category', 'count'));
-    }
-
     public function userlistView($pageNumber)
     {
         $users = User::orderBy('updated_at')->skip(10 * ($pageNumber - 1))->take(10)->get();
@@ -228,7 +148,7 @@ class UserController extends Controller
 
     public function settingsProfileRestore(Request $request)
     {
-        if ((new Account)->reestore(Auth::id(), $request)) {
+        if ((new AccountController)->reestore(Auth::id(), $request)) {
             return redirect()
                 ->back()
                 ->with('message', 'Profile was changed!')
@@ -244,7 +164,7 @@ class UserController extends Controller
 
     public function settingsPasswordRestore(Request $request)
     {
-        if ((new Account)->passwordRestore($request)) {
+        if ((new AccountController)->passwordRestore($request)) {
             return redirect()
                 ->back()
                 ->with('message', 'Password was changed!')
@@ -259,7 +179,7 @@ class UserController extends Controller
 
     public function settingsAvatarRestore(Request $request)
     {
-        if ((new Account)->avatarRestore($request)) {
+        if ((new AccountController)->avatarRestore($request)) {
             return redirect()
                 ->back()
                 ->with('message', 'Avatar image was updated!')

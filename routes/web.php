@@ -26,9 +26,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/profile/{id}/learnedlessons', 'UserController@profileLearnedLessonsView');
     Route::post('/relationship/follow', 'UserController@userFollow');
     Route::delete('/relationship/unfollow', 'UserController@userUnfollow');
-    Route::get('/categories/{pageNumber}', 'UserController@categoriesView');
-    Route::get('/category/{categoryId}', 'UserController@lessonView');
-    Route::post('/answer/{wordId}', 'UserController@answerCheck');
+    Route::get('/categories/{pageNumber}', 'CategoryController@categoriesView');
+    Route::get('/category/{categoryId}', 'CategoryController@lessonView');
+    Route::post('/answer/{wordId}', 'CategoryController@answerCheck');
     Route::get('/userlist/{pageNumber}', 'UserController@userlistView');
     Route::get('/settings', 'UserController@settingsView');
     Route::patch('/settings/profile/restore', 'UserController@settingsProfileRestore');
