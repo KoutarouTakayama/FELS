@@ -1,0 +1,6 @@
+@extends('layouts/adminUserProfile')
+@section('avatarUrl',asset('storage/' . $user->avatar_url))
+@section('nameValue',$user->name)
+@section('readonlyName','readonly')
+@section('emailValue',$user->email)
+@section('readonlyEmail','readonly')

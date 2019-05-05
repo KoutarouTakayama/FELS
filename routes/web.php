@@ -66,6 +66,7 @@ Route::group(['middleware' => ['can:admin']], function () {
     Route::get('/admin/admin/{adminId}/destroy', 'AdminController@adminDestroy')->name('adminDestroy');
     Route::delete('/admin/admin/{adminId}/destroy/delete', 'AdminController@adminDelete');
     Route::get('/admin', 'AdminController@dashboardView');
+    Route::get('/admin/user/{id}/profile','AdminController@userProfileView');
 });
 
 Route::get('/logout', 'Auth\LoginController@logout');

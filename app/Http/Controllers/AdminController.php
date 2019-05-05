@@ -206,4 +206,10 @@ class AdminController extends Controller
     {
         return view('/admin/dashboard');
     }
+
+    public function userProfileView($id)
+    {
+        $user = (new User)->exists($id);
+        return view('/admin/userProfile',compact('user'));
+    }
 }
