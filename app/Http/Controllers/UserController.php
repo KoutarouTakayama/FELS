@@ -10,6 +10,7 @@ use App\LearnedWord;
 use App\LearnedLesson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AccountController as Account;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserController extends Controller
