@@ -38,7 +38,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::group(['middleware' => ['can:admin']], function () {
     Route::get('/admin', function () {
-        return redirect('admin');
+        return redirect('admin/categories/1');
     });
     Route::get('/admin/categories/{pageNumber}', 'AdminController@categoriesView')->name('admin');
     Route::get('/admin/category/{categoryId}/edit', 'AdminController@categoryEdit')->name('edit');

@@ -7,6 +7,7 @@ use App\Word;
 use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AdminController extends Controller
 {
@@ -19,7 +20,12 @@ class AdminController extends Controller
 
     public function categoryEdit($categoryId)
     {
-        $category = app(Category::class)::find($categoryId);
+        try {
+            $category = app(Category::class)::findOrFail($categoryId);
+        } catch (ModelNotFoundException $e) {
+            return abort(404);
+        }
+
         return view('/admin/categoryEdit', compact('category'));
     }
 
@@ -29,19 +35,34 @@ class AdminController extends Controller
             'title' => 'required | max:50',
             'description' => 'required',
         ]);
-        app(Category::class)::find($categoryId)->fill($request->all())->update();
+        try {
+            app(Category::class)::findOrFail($categoryId)->fill($request->all())->update();
+        } catch (ModelNotFoundException $e) {
+            return abort(404);
+        }
+
         return $this->categoriesView(1);
     }
 
     public function categoryDestroy($categoryId)
     {
-        $category = app(Category::class)::find($categoryId);
+        try {
+            $category = app(Category::class)::findOrFail($categoryId);
+        } catch (ModelNotFoundException $e) {
+            return abort(404);
+        }
+
         return view('/admin/categoryDelete', compact('category'));
     }
 
     public function categoryDelete($categoryId)
     {
-        app(Category::class)::find($categoryId)->delete();
+        try {
+            app(Category::class)::findOrFail($categoryId)->delete();
+        } catch (ModelNotFoundException $e) {
+            return abort(404);
+        }
+
         return $this->categoriesView(1);
     }
 
@@ -52,7 +73,9 @@ class AdminController extends Controller
 
     public function addWordStore($categoryId, Request $request)
     {
-        if (Category::find($categoryId) == null) {
+        try {
+            Category::findOrFail($categoryId);
+        } catch (ModelNotFoundException $e) {
             return $this->categoriesView(1);
         }
         $request->validate([
