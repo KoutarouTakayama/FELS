@@ -10,9 +10,7 @@
                     <div class="m-3">
                         <strong>{{$category->title}}</strong>
                     </div>
-                    <div class="m-3" style="height:40px;overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;">
+                    <div class="m-3" style="height:40px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
                         {{$category->description}}
                     </div>
                 </a>
