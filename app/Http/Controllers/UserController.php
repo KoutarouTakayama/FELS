@@ -50,9 +50,7 @@ class UserController extends Controller
             }
             $learnedCategory = Category::find($learnedLesson->category_id);
             $activities->push([
-                'message' => '<a href="/Category/' . $user->id . '">' . $user->userName . '</a> learned ' .
-                    (new CategoryController)->learnedWordGetByCategoryid($learnedCategory->id)->where('correct', true)->count() . ' of ' .
-                    (new CategoryController)->learnedWordGetByCategoryid($learnedCategory->id)->count() . ' words in <a href="/category/' .
+                'message' => '<a href="/Category/' . $user->id . '">' . $user->userName . '</a> learned ' . (new CategoryController)->learnedWordGetByCategoryid($learnedCategory->id)->where('correct', true)->count() . ' of ' . (new CategoryController)->learnedWordGetByCategoryid($learnedCategory->id)->count() . ' words in <a href="/category/' .
                     $learnedCategory->id . '">' . $learnedCategory->title . '</a>.',
                 'avatar_url' => $user->avatar_url,
                 'updated_at' => $learnedLesson->updated_at
@@ -148,7 +146,7 @@ class UserController extends Controller
 
     public function settingsProfileRestore(Request $request)
     {
-        if ((new AccountController)->reestore(Auth::id(), $request)) {
+        if ((new AccountController)->restore(Auth::id(), $request)) {
             return redirect()
                 ->back()
                 ->with('message', 'Profile was changed!')
