@@ -60,7 +60,7 @@ class AccountController extends Controller
 
     public function delete($accountId)
     {
-        $this->userExists($accountId);
+        $this->exists($accountId);
         return User::find($accountId)->delete();
     }
 
