@@ -1,7 +1,5 @@
 @extends('layouts/htmlAndHeader')
 @section('pageTitle','Settings | FELS')
-@section('style')
-@endsection
 @section('body')
 <div class="container">
     <div class="row">
@@ -93,4 +91,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection

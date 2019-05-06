@@ -4,18 +4,18 @@
 <div class="container mt-4">
     <div class="row">
         @foreach($categories as $category)
-        <div class="col-6">
+        <div class="col-12">
             <div class="border m-4 shadow">
-                <div class="m-3">
-                    <strong>{{$category->title}}</strong>
-                </div>
-                <div class="m-3">
-                    {{$category->description}}
-                </div>
-                <div class="m-3 text-right">
-                    <a href="/category/{{$category->id}}"><button class="btn btn-primary">Start</button></a>
-                </div>
-
+                <a href="/category/{{$category->id}}" style="text-decoration: none;">
+                    <div class="m-3">
+                        <strong>{{$category->title}}</strong>
+                    </div>
+                    <div class="m-3" style="height:40px;overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;">
+                        {{$category->description}}
+                    </div>
+                </a>
             </div>
         </div>
         @endforeach
@@ -51,4 +51,4 @@
     </div>
 </div>
 
-@endsection 
+@endsection
