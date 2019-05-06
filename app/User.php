@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class User extends Authenticatable
 {
@@ -30,6 +31,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function exists($id)
+    {
+        try{
+            $user = $this->findOrFail($id);
+        }catch(ModelNotFoundException $e){
+            return abort(404);
+        }
+        return $user;
+    }
 
     public function learnedWord()
     {

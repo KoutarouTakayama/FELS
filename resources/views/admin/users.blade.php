@@ -22,7 +22,7 @@
                 @foreach($users as $user)
                 <tr>
                     <td class="text-turncate" style="min-width:200px;">
-                        <a href="#">{{$user->name}}</a>
+                        <a href="/admin/user/{{$user->id}}/profile">{{$user->name}}</a>
                     </td>
                     <td class="text-turncate" style="width:50%; min-width:300px;">
                         {{$user->email}}
@@ -73,4 +73,4 @@
     </nav>
     @endif
 </div>
-@endsection 
+@endsection
