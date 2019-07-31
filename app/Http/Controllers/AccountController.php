@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-
 class AccountController extends Controller
 {
     public function exists($userId)
@@ -86,8 +85,13 @@ class AccountController extends Controller
         if ($request->file('avatar')->isValid()) {
             $filename = Auth::user()->id . "-" . time() . '.jpg';
             $request->avatar->storeAs('public', $filename);
-            Storage::disk('public')->delete(Auth::user()->avatar_url);
+
+            if (Auth::user()->avatar_url != 'default.jpg') {
+                Storage::disk('public')->delete(Auth::user()->avatar_url);
+            }
+
             User::find(Auth::id())->fill(['avatar_url' => $filename])->save();
+
             return true;
         } else {
             return false;
