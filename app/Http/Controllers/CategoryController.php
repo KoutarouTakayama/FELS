@@ -64,11 +64,11 @@ class CategoryController extends Controller
     public function answerCheck($wordId, Request $request)
     {
         $word = Word::find($wordId);
-        $newWord = new LearnedWord;
+        $newWord = new learnedWord;
         $newWord->word_id = $word->id;
         $newWord->user_id = auth()->user()->id;
         $word->answer === $request->choice ? $newWord->correct = true : $newWord->correct = false;
-        if (!LearnedWord::where('user_id', Auth::id())->where('word_id', $wordId)->exists()) {
+        if (!learnedWord::where('user_id', Auth::id())->where('word_id', $wordId)->exists()) {
             $newWord->save();
         }
 
