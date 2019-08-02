@@ -10,6 +10,7 @@ use App\LearnedWord;
 use App\LearnedLesson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\AccountController as AccountController;
 use App\Http\Controllers\CategoryController as CategoryController;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -30,8 +31,8 @@ class UserController extends Controller
             }
             $activities->push([
                 'message' => '<a href="/profile/' . $user->id . '">' . $user->userName . '</a> followed <a href="/profile/' . $followingUser->id . '">' . $followingUser->name . '</a>.',
-                'avatar_url' => $user->avatar_url,
-                'updated_at' => $followingUserId->updated_at
+                'updated_at' => $followingUserId->updated_at,
+                'avatar_image' => $this->getAvatarImage($user->avatar_url)
             ]);
         }
         return $activities;
@@ -52,7 +53,7 @@ class UserController extends Controller
             $activities->push([
                 'message' => '<a href="/Category/' . $user->id . '">' . $user->userName . '</a> learned ' . (new CategoryController)->learnedWordGetByCategoryid($learnedCategory->id)->where('correct', true)->count() . ' of ' . (new CategoryController)->learnedWordGetByCategoryid($learnedCategory->id)->count() . ' words in <a href="/category/' .
                     $learnedCategory->id . '">' . $learnedCategory->title . '</a>.',
-                'avatar_url' => $user->avatar_url,
+                'avatar_image' => $this->getAvatarImage($user->avatar_url),
                 'updated_at' => $learnedLesson->updated_at
             ]);
         }
@@ -63,6 +64,7 @@ class UserController extends Controller
     {
         $activities = collect();
         $user = Auth::user();
+        $user->avatar_image = $this->getAvatarImage($user->avatar_url);
         $followingUsersId = $user->relationship;
 
         $activities = $activities->concat($this->userFollowingActivities($user->id));
@@ -79,13 +81,14 @@ class UserController extends Controller
 
         return view('/user/dashboard', compact(
             'activities',
-            'user'
+            'user',
         ));
     }
 
     public function profileLearnedWordsView($id)
     {
         $user = User::find($id);
+        $user->avatar_image = $this->getAvatarImage($user->avatar_url);
         $learnedWords = $user->learnedWord;
 
         foreach ($learnedWords as $learnedWord) {
@@ -101,6 +104,7 @@ class UserController extends Controller
     public function profileLearnedLessonsView($id)
     {
         $user = User::find($id);
+        $user->avatar_image = $this->getAvatarImage($user->avatar_url);
         $activities = $this->userLearnedLessonsActivities($id);
         $activities = $activities->sortByDesc('updated_at');
         return view('/user/learnedLessons', compact('activities', 'user'));
@@ -109,6 +113,7 @@ class UserController extends Controller
     public function profileView($id)
     {
         $user = User::find($id);
+        $user->avatar_image = $this->getAvatarImage($user->avatar_url);
         $activities = collect();
         $activities = $activities->concat($this->userFollowingActivities($id));
         $activities = $activities->concat($this->userLearnedLessonsActivities($id));
@@ -141,6 +146,7 @@ class UserController extends Controller
     public function settingsView()
     {
         $user = Auth::user();
+
         return view('/user/settings', compact('user'));
     }
 
@@ -188,5 +194,14 @@ class UserController extends Controller
                 ->with('message', 'Avatar image was not updated!')
                 ->with('color', 'danger');
         }
+    }
+
+    public function getAvatarImage($avatarName)
+    {
+        // $url = "https://dl.dropboxusercontent.com/s/uldslccwxdp2mdb/";
+        // return $url . $avatarName;
+
+        $url = "https://dl.dropboxusercontent.com/s/uldslccwxdp2mdb/default.jpg";
+        return $url;
     }
 }

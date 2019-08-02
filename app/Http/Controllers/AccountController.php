@@ -80,14 +80,14 @@ class AccountController extends Controller
     public function avatarRestore(Request $request)
     {
         $request->validate([
-            'avatar' => 'required | file | image | mimes:jpeg,png',
+            'avatar' => 'required | file | image | mimes:jpeg,png'
         ]);
         if ($request->file('avatar')->isValid()) {
             $filename = Auth::user()->id . "-" . time() . '.jpg';
-            $request->avatar->storeAs('public', $filename);
+            $request->avatar->storeAs('dropbox', $filename);
 
             if (Auth::user()->avatar_url != 'default.jpg') {
-                Storage::disk('public')->delete(Auth::user()->avatar_url);
+                Storage::disk('dropbox')->delete(Auth::user()->avatar_url);
             }
 
             User::find(Auth::id())->fill(['avatar_url' => $filename])->save();
