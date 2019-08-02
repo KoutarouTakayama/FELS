@@ -16,7 +16,7 @@
             <div class="row">
                 @foreach($activities as $activity)
                 <div class="col-2 m-2">
-                    <img src="{{$avatar_image}}" alt="" class="img-fluid rounded-circle m-3">
+                    <img src="{{$user->avatar_image}}" alt="" class="img-fluid rounded-circle m-3">
                 </div>
                 <div class="col-8 m-2">
                     <div class="my-3">
