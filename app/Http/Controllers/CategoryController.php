@@ -29,24 +29,24 @@ class CategoryController extends Controller
 
     public function LearnedWordGetByCategoryid($categoryId)
     {
-        $userWords = Auth::user()->LearnedWord;
-        $LearnedWords = collect();
+        $userWords = Auth::user()->learnedWord;
+        $learnedWords = collect();
         foreach ($userWords as $userWord) {
-            $categoryId == $userWord->word->category_id ? $LearnedWords->push($userWord) : '';
+            $categoryId == $userWord->word->category_id ? $learnedWords->push($userWord) : '';
         }
-        return $LearnedWords;
+        return $learnedWords;
     }
 
     public function lessonView($categoryId)
     {
         $category = $this->categoryExists($categoryId);
 
-        $LearnedWords = $this->LearnedWordGetByCategoryid($categoryId);
+        $learnedWords = $this->LearnedWordGetByCategoryid($categoryId);
         $words = $category->word;
         foreach ($words as $word) {
             $token = true;
-            foreach ($LearnedWords as $LearnedWord) {
-                $word->id == $LearnedWord->word->id ? $token = false : '';
+            foreach ($learnedWords as $learnedWord) {
+                $word->id == $learnedWord->word->id ? $token = false : '';
             }
             if ($token) {
                 $choices = [
@@ -54,7 +54,7 @@ class CategoryController extends Controller
                     $word->wrong_answer_2, $word->wrong_answer_3
                 ];
                 shuffle($choices);
-                return view('/user/lesson', compact('word', 'category', 'LearnedWords', 'choices'));
+                return view('/user/lesson', compact('word', 'category', 'learnedWords', 'choices'));
             }
         }
 
