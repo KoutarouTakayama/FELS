@@ -1,4 +1,4 @@
-@extends('layouts/admindashboard')
+@extends('layouts/admin/dashboard')
 @section('body')
 <div class="container">
     <div class="row">
@@ -28,4 +28,4 @@
     </div>
 </div>
 </div>
-@endsection 
+@endsection

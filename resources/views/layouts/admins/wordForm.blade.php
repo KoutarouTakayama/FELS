@@ -1,4 +1,4 @@
-@extends('layouts/adminDashboard')
+@extends('layouts/admins/dashboard')
 @section('body')
 <div class="container mt-4">
 
@@ -19,7 +19,7 @@
             <div class="col-1"></div>
             <div class="col-6 p-4">
                 <div class="container">
-                <label for="choice">Choice</label>
+                    <label for="choice">Choice</label>
                     <div class="form-inline mb-4">
                         <input class="form-control col-10 {{$errors->has('choice1')?'is-invalid':''}}" type="text" name="choice1" maxlength="50" value="{{old('choice1')}}" required>
                         <input class="radio ml-3" type="radio" name="answer" value="choice1" {{old('answer')=='choice1'?'checked':''}} required>
@@ -66,7 +66,7 @@
                     </span>
                     @endif
 
-                        <button class="form-control col-10 btn btn-primary">Submit</button>
+                    <button class="form-control col-10 btn btn-primary">Submit</button>
                 </div>
             </div>
         </div>

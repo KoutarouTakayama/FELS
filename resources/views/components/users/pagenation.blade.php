@@ -1,4 +1,4 @@
-<div class="col-12">
+<div>
     <nav aria-label="...">
         <ul class="pagination">
             <li class="page-item">
@@ -26,4 +26,4 @@
             <li class="page-item"><a class="page-link" href="@yield('pagenation'){{$pageNumber + 1}}">Next</a></li>
         </ul>
     </nav>
-</div> 
+</div>
