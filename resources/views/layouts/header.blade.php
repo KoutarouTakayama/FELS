@@ -15,8 +15,6 @@
 </head>
 
 <body>
-    @component('/component/users/navbar')
-    @endcomponent
     @yield('body')
 </body>
 
