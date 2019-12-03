@@ -1,4 +1,4 @@
-@extends('layouts/userDashboard')
+@extends('layouts/users/dashboard')
 @section('pageTitle','DashBoard | FELS')
 @section('avatarUrl',$user->avatar_url)
 @section('userName',$user->name)
@@ -6,22 +6,26 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-6 bg-primary text-light mb-2">
-            Word
-        </div>
-        <div class="col-6 bg-primary text-light mb-2">
-            Answer
-        </div>
-    </div>
-    <div class="row" style="max-height:500px; overflow:scroll;">
-        @foreach($learnedWords as $learnedWord)
-        <div class="col-6 mb-1 mt-1">
-            {{$learnedWord->word->word}}
-        </div>
-        <div class="col-6  mb-1 mt-1">
-            {{$learnedWord->word->answer}}
-        </div>
-        @endforeach
+        <table class="table table-hover">
+            <thead>
+                <tr class="bg-primary text-light">
+                    <th scope="col">
+                        Word
+                    </th>
+                    <th scope="col">
+                        Answer
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($learnedWords as $learnedWord)
+                <tr>
+                    <td>{{$learnedWord->word->word}}</td>
+                    <td>{{$learnedWord->word->answer}}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </div>
-@endsection 
+@endsection
