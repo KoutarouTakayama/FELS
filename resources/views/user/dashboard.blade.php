@@ -1,17 +1,11 @@
-@extends('layouts/userDashboard')
+@extends('layouts/users/dashboard')
 @section('pageTitle','DashBoard | FELS')
 @section('content')
 <div class="border h-100 shadow">
-    <nav class="navbar navbar-expand-lg navbar-primary bg-primary">
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item text-light">
-                    <span class="lead"><strong>Activities</strong></span>
-                </li>
-            </ul>
-        </div>
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="navbar-brand">Timelines</div>
     </nav>
-    <div class="" style="height:500px; overflow:scroll;">
+    <div>
         <div class="container">
             <div class="row">
                 @foreach($activities as $activity)
@@ -29,9 +23,4 @@
         </div>
     </div>
 </div>
-</div>
-
-
-
-
-@endsection 
+@endsection

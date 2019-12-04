@@ -1,12 +1,12 @@
-@extends('layouts/adminDashboard')
+@extends('layouts/admin/dashboard')
 @section('body')
 <div class="container mt-4">
     <div class="row">
         <div class="col-2"></div>
         <div class="col-8">
             <form action="/admin/@yield('formUrl','add/user/store')" method="POST">
-            <input type="hidden" name="_method" value="@yield('method','')">
-            @csrf
+                <input type="hidden" name="_method" value="@yield('method','')">
+                @csrf
 
                 <label for="name">Name</label>
                 <input class="form-control {{$errors->has('name') ? 'is-invalid' : ''}}" type="text" name="name" value="@yield('nameValue',old('name'))" minlength="3" maxlength="20" placeholder="Mt.Fuji" required autofocus @yield('readonlyName','')>
