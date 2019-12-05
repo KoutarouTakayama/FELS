@@ -1,6 +1,7 @@
-@extends('layouts/htmlAndHeader')
+@extends('layouts/header')
 @section('pageTitle','Result | FELS')
 @section('body')
+@include('components/users/navbar')
 <div class="container">
     <div class="row my-4">
         <div class="col-6 text-center">
@@ -38,4 +39,4 @@
         <div class="col-2"></div>
     </div>
 </div>
-@endsection 
+@endsection

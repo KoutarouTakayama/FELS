@@ -1,6 +1,7 @@
-@extends('layouts/htmlAndHeader')
+@extends('layouts/header')
 @section('pageTitle',$category->title . ' | FELS')
 @section('body')
+@include('components/users/navbar')
 <div class="container">
     <div class="row">
         <div class="col-6">

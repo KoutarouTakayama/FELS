@@ -1,6 +1,7 @@
-@extends('layouts/htmlAndHeader')
+@extends('layouts/header')
 @section('pageTitle','Category List | FELS')
 @section('body')
+@include('components/users/navbar')
 <div class="container mt-4">
     <div class="row">
         @foreach($categories as $category)
@@ -51,4 +52,4 @@
     </div>
 </div>
 
-@endsection 
+@endsection
