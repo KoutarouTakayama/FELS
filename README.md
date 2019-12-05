@@ -1,3 +1,3 @@
 # FELS
 
-sun\* traning project
+A Traning Project 'Free_e-learning_system'
