@@ -1,8 +1,9 @@
-@extends('layouts/htmlAndHeader')
+@extends('layouts/header')
 @section('pageTitle','Settings | FELS')
 @section('style')
 @endsection
 @section('body')
+@include('components/users/navbar')
 <div class="container">
     <div class="row">
         @if(session()->has('message'))
@@ -15,7 +16,7 @@
             <strong>{{ $errors->first('avatar') }}</strong>
         </span>
         @endif
-        <div class="col-5 pt-3 pb-5 px-3">
+        <div class="col-12 col-lg-5 p-3">
             <div class="border shadow pt-3 pb-5 px-3 h-100">
                 <form action="/settings/profile/restore" method="POST" class="h-100 mb-3">
                     @csrf
@@ -42,7 +43,7 @@
                 </form>
             </div>
         </div>
-        <div class="col-4 pt-3 pb-5 px-3">
+        <div class="col-12 col-lg-4 p-3">
             <div class="border shadow pt-3 pb-5 px-3 h-100">
                 <form action="/settings/password/restore" method="POST" class="h-100 mb-3">
                     @csrf
@@ -71,7 +72,7 @@
                 </form>
             </div>
         </div>
-        <div class="col-3 pt-3 pb-5 px-3">
+        <div class="col-12 col-lg-3 p-3">
             <div class="border shadow h-100 pt-3 pb-5 px-3">
                 <form action="/settings/avatar/restore" method="POST" class="h-100 mb-3" enctype="multipart/form-data">
                     @csrf
@@ -93,4 +94,4 @@
         </div>
     </div>
 </div>
-@endsection 
+@endsection
