@@ -180,25 +180,25 @@ class AdminController extends Controller
 
     public function adminEdit($adminId)
     {
-        (new Account)->accountIdNameEmail($adminId);
+        $admin = (new Account)->accountIdNameEmail($adminId);
         return view('/admin/adminEdit', compact('admin'));
     }
 
     public function adminRestore($adminId, Request $request)
     {
-        (new Account)->restore($adminId, $request);
+        $admin = (new Account)->restore($adminId, $request);
         return redirect('/admin/admins/1');
     }
 
     public function adminDestroy($adminId)
     {
-        (new Account)->accountIdNameEmail($adminId);
+        $admin = (new Account)->accountIdNameEmail($adminId);
         return view('/admin/adminDelete', compact('admin'));
     }
 
     public function adminDelete($adminId)
     {
-        (new Account)->delete($adminId);
+        $admin = (new Account)->delete($adminId);
         return redirect('/admin/admins/1');
     }
 
@@ -210,6 +210,6 @@ class AdminController extends Controller
     public function userProfileView($id)
     {
         $user = (new User)->exists($id);
-        return view('/admin/userProfile',compact('user'));
+        return view('/admin/userProfile', compact('user'));
     }
 }

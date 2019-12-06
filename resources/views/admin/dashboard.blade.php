@@ -1,4 +1,4 @@
-@extends('layouts.adminDashboard')
-@section('body')
-{{"This is dashboard"}}
-@endsection 
+@extends('layouts/admins/dashboard')
+@section('content')
+
+@endsection

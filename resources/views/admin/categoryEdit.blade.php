@@ -1,4 +1,4 @@
-@extends('layouts/adminForm')
+@extends('layouts/admins/form')
 @section('pageTitle','Category Edit | Admin')
 @section('titleValue',$category->title)
 @section('descriptionValue',$category->description)
@@ -6,4 +6,4 @@
 <form action="/admin/category/{{$category->id}}/restore" method="POST">
     @csrf
     @method('PATCH')
-    @endsection 
+    @endsection
