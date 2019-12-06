@@ -1,4 +1,4 @@
-@extends('layouts/adminForm')
+@extends('layouts/admins/form')
 @section('pageTitle','Category Delete | Admin')
 @section('titleValue',$category->title)
 @section('descriptionValue',$category->description)
@@ -9,4 +9,4 @@
 <form action="/admin/category/{{$category->id}}/delete" method="POST">
     @csrf
     @method('DELETE')
-    @endsection 
+    @endsection

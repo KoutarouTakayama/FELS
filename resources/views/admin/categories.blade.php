@@ -1,9 +1,9 @@
-@extends('layouts.adminDashboard')
+@extends('layouts/admins/dashboard')
 @section('pagetitle','Dashboard | Admin')
-@section('body')
+@section('content')
 <div class="container">
     <a href="/admin/add/category"><button class="mt-4 btn btn-primary form-control">Add new Category</button></a>
-    <div class="mt-4">
+    <div class="table-responsive-md mt-4">
         <table class="table table-hover">
             <thead class="table-primary">
                 <tr>
@@ -73,4 +73,4 @@
     </nav>
     @endif
 </div>
-@endsection 
+@endsection

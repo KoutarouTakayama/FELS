@@ -1,5 +1,5 @@
 @extends('layouts/admins/dashboard')
-@section('body')
+@section('content')
 <div class="container mt-4">
 
     <form action="/admin/add/word/{{$categoryId}}/store" method="POST">

@@ -1,4 +1,4 @@
-@extends('layouts/adminUserProfile')
+@extends('layouts/admins/userProfile')
 @section('avatarUrl',asset('storage/' . $user->avatar_url))
 @section('nameValue',$user->name)
 @section('readonlyName','readonly')

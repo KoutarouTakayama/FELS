@@ -1,2 +1,2 @@
-@extends('layouts.adminWordForm')
-@section('pageTitle','Add Word | Admin') 
+@extends('layouts/admins/wordForm')
+@section('pageTitle','Add Word | Admin')

@@ -1,9 +1,8 @@
-@extends('layouts/admin/dashboard')
-@section('body')
+@extends('layouts/admins/dashboard')
+@section('content')
 <div class="container mt-4">
     <div class="row">
-        <div class="col-2"></div>
-        <div class="col-8">
+        <div class="col-md-10 offset-md-1">
             <form action="/admin/@yield('formUrl','add/user/store')" method="POST">
                 <input type="hidden" name="_method" value="@yield('method','')">
                 @csrf
@@ -34,7 +33,6 @@
                 <button class="mt-5 form-control btn btn-@yield('buttonColor','primary')">@yield('buttonText','Submit')</button>
             </form>
         </div>
-        <div class="ciol-2"></div>
     </div>
 </div>
 @endsection

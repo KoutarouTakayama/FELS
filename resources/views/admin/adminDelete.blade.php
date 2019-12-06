@@ -1,4 +1,4 @@
-@extends('layouts/adminUserForm')
+@extends('layouts/admins/userForm')
 @section('pageTitle','Delete Admin')
 @section('formUrl','admin/'.$admin->id.'/destroy/delete')
 @section('method','delete')
@@ -9,4 +9,4 @@
 @section('readonly','readonly')
 @section('passwordPlaceholder','Can not confirm')
 @section('buttonColor','danger')
-@section('buttonText','Delete') 
+@section('buttonText','Delete')

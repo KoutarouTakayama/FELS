@@ -1,4 +1,4 @@
-@extends('layouts/adminUserForm')
+@extends('layouts/admins/userForm')
 @section('pageTitle','Edit Account')
 @section('formUrl','user/'.$user->id.'/edit/restore')
 @section('method','patch')
@@ -7,4 +7,4 @@
 @section('readonly','readonly')
 @section('passwordPlaceholder','Can not change')
 @section('buttonColor','success')
-@section('buttonText','Edit') 
+@section('buttonText','Edit')
