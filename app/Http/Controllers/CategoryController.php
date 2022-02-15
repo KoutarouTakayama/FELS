@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Word;
 use App\Category;
-use App\learnedWord;
-use App\learnedLesson;
+use App\LearnedWord;
+use App\LearnedLesson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
